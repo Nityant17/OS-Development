@@ -13,10 +13,10 @@ bits 16                ; Specify that this asm is based on 16 bit arch
 ORG 0x7c00             ; Load the starting memory address for the bootloader
 
 start:
-  mov ax, 0x03         ; BIOS function to clear the screen
+  	mov ax, 0x03         ; BIOS function to clear the screen
 	int 0x10             ; Call BIOS interrupt
         
-  mov al, 'H'	         ; Load the char into al register
+  	mov al, 'H'	     ; Load the char into al register
 	mov ah, 0x0e         ; Set the function code in ah register to print i.e 0x0e
 	int 0x10             ; Call BIOS interrupt
 	mov al, 'I'
