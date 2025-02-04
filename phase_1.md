@@ -38,7 +38,7 @@ Some other things to keep in mind:
 - `ah` needs to be given its value repeatedly because it gets cleared after a BIOS interrupt call, so we need to set it again
 - BIOS interrupt call is basically to refresh/update the screen and to let us interact with it so that we can make changes to it
 - We need to create an infinite loop to keep the bootloader ruuning and preventing it from crashing or executing something random
-- `times` is used to repeat the command `db 0` (define byte as 0) till the total file size is '510' bytes `$` refers to the current address in the code, and `$$` is the starting address, this expression calculates how many bytes are left until the 510th byte
+- `times` is used to repeat the command `db 0` (define byte as 0) till the total file size is '510' bytes, `$` refers to the current address in the code, and `$$` is the starting address, this expression calculates how many bytes are left until the 510th byte
 - The last 2 bytes are filled with the magic bytes `0xaa55` using `dw` (define word) to specify this is a bootloader
 
 How to run the code:
