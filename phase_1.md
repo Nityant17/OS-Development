@@ -4,7 +4,7 @@
 
 So how does it work:
 - First the BIOS checks the boot signature i.e the last 2 bytes and expects them to be `0xaa55` this tells the BIOS that this is a bootloader
-- Then the bootloader is loaded at 0x7c00 in memory
+- Then the bootloader is loaded at `0x7c00` in memory
 - And then it just does what you tell it to
 
 My code:
@@ -32,5 +32,17 @@ dw 0xaa55              ; Magic bytes to tell the BIOS that this is a bootloader
 ```
 
 Some other things to keep in mind:
-- ax = ah + al, ah contains the data of what you want to do and al contains the character that will have the thing done to it
-- 
+- `ORG` is short for origin and is used to tell the assembler where to start placing the machine code in memory
+- `ax` = `ah` + `al`, `ax` is 16 bit register and `ah`,`al` are 8 bit, `ah` is called high byte of `ax` and `al` is called low byte of `ax`
+- `ah` contains the data of what you want to do (the function) and `al` contains the character that will have the thing done to it
+- `ah` needs to be given its value repeatedly because it gets cleared after a BIOS interrupt call, so we need to set it again
+- BIOS interrupt call is basically to refresh/update the screen and to let us interact with it so that we can make changes to it
+- We need to create an infinite loop to keep the bootloader ruuning and preventing it from crashing or executing something random
+- `times` is used to repeat the command `db 0` (define byte as 0) till the total file size is '510' bytes `$` refers to the current address in the code, and `$$` is the starting address, this expression calculates how many bytes are left until the 510th byte
+- The last 2 bytes are filled with the magic bytes `0xaa55` using `dw` (define word) to specify this is a bootloader
+
+How to run the code:
+```bash
+~$nasm -f bin asm.s -o asm.bin
+~$qemu-system-i386 -drive format=raw,file=asm.bin
+```
