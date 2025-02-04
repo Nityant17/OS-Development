@@ -42,6 +42,7 @@ Some other things to keep in mind:
 - The last 2 bytes are filled with the magic bytes `0xaa55` using `dw` (define word) to specify this is a bootloader
 
 How to run the code:
+
 ```bash
 ~$nasm -f bin asm.s -o asm.bin
 ~$qemu-system-i386 -drive format=raw,file=asm.bin
