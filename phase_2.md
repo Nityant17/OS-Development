@@ -45,6 +45,8 @@ Some other things to keep in mind:
 
 Makefile:
 
+- To use makefile just type `make` in the terminal
+
 ```make
 ASM_DIR := asm
 OUT_DIR := out
