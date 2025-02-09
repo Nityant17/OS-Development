@@ -71,4 +71,4 @@ mesg: db "Welcome to the Bootloader!", 0  	; Define msg as the string followed b
 msg: db "...ssergorP nI", 0			; The msg here is in reverse as we are printing from stack that follows LIFO
 
 times 510-($-$$) db 0	; Fill the empty bytes with zeros
-dw 0xaa55		; Magic bytes to tell the BIOS that this is a bootloader
+dw 0xaa55				; Magic bytes to tell the BIOS that this is a bootloader
