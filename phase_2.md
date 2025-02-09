@@ -4,32 +4,32 @@
 
 My code:
 ```asm
-bits 16			  ; Specify that this asm is based on 16 bit arch
-org 0x7c00		; Load the starting memory address for the bootloader
+bits 16	       ; Specify that this asm is based on 16 bit arch
+org 0x7c00     ; Load the starting memory address for the bootloader
 
 start:	
-	    mov ax, 0x03 	  ; BIOS function to clear the screen
-	    int 0x10	      ; Call BIOS interrupt
-	    mov si, msg     ; Load address of the msg into SI
-	    call print	    ; Call the print function
-	    jmp $		        ; Jump to itself to create an infinite loop and keep the bootloader running
+        mov ax, 0x03    ; BIOS function to clear the screen
+        int 0x10	; Call BIOS interrupt
+        mov si, msg     ; Load address of the msg into SI
+        call print	; Call the print function
+        jmp $           ; Jump to itself to create an infinite loop and keep the bootloader running
 
-print:	      		    ; Function to print the string
-	    mov ah,0x0e   	; Set the function code in ah register to print
+print:	      		; Function to print the string
+        mov ah,0x0e   	; Set the function code in ah register to print
 .loop:
-      mov al, [si]  	; Load byte from memory at si into al
+        mov al, [si]  	; Load byte from memory at si into al
     	cmp al, 0     	; Check for null terminator
     	je .done      	; If null, exit
     	int 0x10      	; Print character
     	inc si        	; Increment si to point to the next byte
     	jmp .loop     	; Repeat for next character
 .done:
-	    ret	      	    ; When null terminator reached come out of the function
+        ret	      	; When null terminator reached come out of the function
 
 msg: db "Hello",0aH,0dH,"World!", 0  ; Define msg as the string followed by the null byte for terminating 
 
 times 510-($-$$) db 0	  ; Fill the empty bytes with zeros
-dw 0xaa55		            ; Magic bytes to tell the BIOS that this is a bootloader
+dw 0xaa55		  ; Magic bytes to tell the BIOS that this is a bootloader
 ```
 
 Some other things to keep in mind:
