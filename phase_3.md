@@ -4,7 +4,7 @@
 
 - We need to create a makefile that can auto generate dependencies for a C program
 
-a.c :
+**a.c** :
 ```c
 #include <stdio.h>
 #include "a.h"
@@ -14,7 +14,7 @@ int main() {
     return 0; }
 ```
 
-a.h :
+**a.h** :
 ```c
 #ifndef A_H
 #define A_H
@@ -22,7 +22,7 @@ void functionA();
 #endif // A_H
 ```
 
-b.c :
+**b.c** :
 ```c
 #include <stdio.h>
 #include "b.h"
@@ -32,7 +32,7 @@ int main() {
     return 0; }
 ```
 
-b.h :
+**b.h** :
 ```c
 #ifndef B_H
 #define B_H
@@ -72,19 +72,19 @@ clean:
 Some other things to keep in mind:
 - `GCC` is compiler used
 - `-Wall` enables all common warnings
-- `-MMD` Generates a dependency file (.d) for each .c file
+- `-MMD` Generates a dependency file (`.d`) for each `.c` file
 - `-MP` ensures missing headers don't break the build
-- `SRC` is list of source files (a.c, b.c)
-- `OBJ` converts .c filenames to .o (object files)
-- `DEPS` converts .c filenames to .d (dependency files)
+- `SRC` is list of source files (`a.c`, `b.c`)
+- `OBJ` converts `.c` filenames to `.o` (object files)
+- `DEPS` converts `.c` filenames to `.d` (dependency files)
 
 How it works:
-1. `all` builds all executables listed in TARGETS (a and b)
-2. `%: %.o` links a single object file (%.o) into an executable (%) (ex: a.o → a)
-3. `%.o: %.c` compiles a .c file into an .o file
-4. `-include $(DEPS)` includes the dependency files (.d), ensuring automatic tracking of header file dependencies
-5. `run` runs all compiled executables (a and b)
-6. `clean` deletes all compiled files (.o, .d, and executables)
+1. `all` builds all executables listed in TARGETS (`a` and `b`)
+2. `%: %.o` links a single object file (`%.o`) into an executable (`%`) (ex: `a.o` → `a`)
+3. `%.o: %.c` compiles a `.c` file into an `.o` file
+4. `-include $(DEPS)` includes the dependency files (`.d`), ensuring automatic tracking of header file dependencies
+5. `run` runs all compiled executables (`a` and `b`)
+6. `clean` deletes all compiled files (`.o`, `.d`, and executables)
 
 To use we input commands:
 ```bash
