@@ -4,7 +4,7 @@
 
 - We need to create a makefile that can auto generate dependencies for a C program
 
-a.c:
+a.c :
 ```c
 #include <stdio.h>
 #include "a.h"
@@ -14,7 +14,7 @@ int main() {
     return 0; }
 ```
 
-a.h:
+a.h :
 ```c
 #ifndef A_H
 #define A_H
@@ -22,7 +22,7 @@ void functionA();
 #endif // A_H
 ```
 
-b.c:
+b.c :
 ```c
 #include <stdio.h>
 #include "b.h"
@@ -32,7 +32,7 @@ int main() {
     return 0; }
 ```
 
-b.h:
+b.h :
 ```c
 #ifndef B_H
 #define B_H
