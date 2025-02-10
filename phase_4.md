@@ -2,7 +2,7 @@
 
 ### Objective is to print something by popping from a stack
 
-- To first use a stack we need to initiallize it
+- To first use a stack we need to initialize it
 - To print from a stack we first `push` the character onto the stack and then print it by `pop`ping it from the stack
 
 My code:
