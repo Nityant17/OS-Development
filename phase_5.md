@@ -112,8 +112,7 @@ times 1024-($-$$) db 0   ; Pad the rest of the sector
 
 Some other things to keep in mind:
 - In real mode, memory addressing is done with segment:offset pairs, which point to a physical memory address
-- The physical memory address = (Segment × 16) + Offset
-- The segment is multiplied by 16 and then added to the offset to get the actual memory address
+- The physical memory address = (Segment × 16) + Offset, the segment is multiplied by 16 and then added to the offset to get the actual memory address
 - `es` and `bx` form one of these segment:offset pairs
 - `es` holds the value of the segment in this case 0x0000
 - `bx` is for the offset and we choose 0x7e00 because it is just 512 bytes after 0x7c00 and thus doesn't interfere with anything and provides maximum space
@@ -123,5 +122,5 @@ Some other things to keep in mind:
 - `ax` = 0x0201, `ah` = 0x02 (BIOS function to read sectors) and `al` = 0x01 to load 1 sector
 - `cx` = 0x0002, `ch` = 0x00 for cylinder value and `cl` = 0x02 i.e sector number (sector 1 is already loaded, its the MBR (Master Boot Record))
 - `dx` = 0x0080, `dh` = 0x00 for head value and `dl` = 0x80 for "C" drive number
-- `int 0x13` is to access the disk using the `0x13` BIOS interrupt
-- We then write our message into the loaded sector and fill the rest with padding, then just print the msg using the `print` function
+- `int 0x13` is to access the disk using the `0x13` BIOS interrupt and thus loading the sectors
+- We then write our message into the loaded sector and fill the rest with padding, then just print the msg by setting `si` value to the data stored at the starting of the sector and then just using the `print` function
