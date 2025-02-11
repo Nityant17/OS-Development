@@ -10,7 +10,18 @@ start:
         mov esp, 0x9fc00     ; Set the stack segment register
         mov si, msg          ; Load the other msg into si
         call push_str       
-        call pop_str          
+        call pop_str
+        call newline
+	mov bx, 0x0000       ; Set bx value for es
+	mov es, bx           ; Set es value to bx to set up the offset
+	mov bx, 0x7e00       ; Set bx value to specify the address where the sector will be loaded 
+	mov ax, 0x0201       ; Set ah as 0x02 (BIOS function to read sectors) and al as 0x01 to load 1 sector
+	mov cx, 0x0002       ; Set ch as 0x00 for cylinder and cl as sector number 0x02
+	mov dx, 0x0080       ; Set dh as 0x00 for head and dl as 0x80 for C drive number
+	int 0x13             ; Access the disk using the 0x13 BIOS interrupt
+	mov si, 0x7e00       ; Load the data at the starting of loaded sector into si
+	call print
+	call newline
         jmp $                ; Jump to itself to create an infinite loop and keep the bootloader running
 
 
@@ -72,3 +83,6 @@ msg: db "...ssergorP nI", 0                ; The msg here is in reverse as we ar
 
 times 510-($-$$) db 0    ; Fill the empty bytes with zeros
 dw 0xaa55                ; Magic bytes to tell the BIOS that this is a bootloader
+
+db "Hello World!",0      ; Write msg into the loaded sector
+times 1024-($-$$) db 0   ; Pad the rest of the sector
