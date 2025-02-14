@@ -8,10 +8,10 @@ start:
 	; Just printing stuff
 	mov ax, 0x03          ; BIOS function to clear the screen
         int 0x10              ; Call BIOS interrupt
-	mov si, mes           ; Load address of the msg into si
+	mov si, msg_1         ; Load address of the msg into si
         call print                
         mov esp, 0x9fc00      ; Set the stack segment register
-        mov si, msg           ; Load the other msg into si
+        mov si, msg_2         ; Load the other msg into si
         call push_str       
         call pop_str          
 	
@@ -55,18 +55,39 @@ bits 32      ; Now in Protected Mode
 
 p_mode:
 	; Load Data Segment registers
-	mov ax, 0x10          
-    	mov ds, ax
-    	mov es, ax
-    	mov fs, ax
-    	mov gs, ax
-    	mov ss, ax
+	mov eax, 0x10          
+    	mov ds, eax
+    	mov es, eax
+    	mov fs, eax
+    	mov gs, eax
+    	mov ss, eax
 
     	; Set up stack
     	mov esp, 0x9fc00  
+        
+        ; VGA memory starts at 0xB8000
+        mov edi, (0xb8000 + (80 * 2 * 3))    ; Start at row 4 (skipping 3 rows of 16-bit mode text)
+        mov esi, msg_3                       ; Load the address of the string
+        call print_32
+	cli                                  ; Clear Interrupts	
+	hlt                                  ; Halt the code to prevent executing random memory
 
-	cli                   ; Clear Interrupts	
-	hlt                   ; Halt the code to prevent executing random memory
+
+; Function to print str in 32 bit protected mode
+print_32:
+    	mov al, [esi]         ; Load character
+        cmp al, 0             ; Check if we reached the null terminator
+        je .done              
+        mov ah, 0x0F          ; Attribute: White text on black background
+        mov [edi], ax         ; Store character and attribute
+        add edi, 2            ; Move to the next VGA memory location (2 bytes per char: char + color)
+        add esi, 1            ; Move to next character of string (1 byte per char)
+        jmp print_32          
+.done:
+	ret
+
+
+msg_3: db "Hello, Protected Mode!", 0  ; Null-terminated string
 
 
 ; =============
@@ -153,8 +174,8 @@ idt_descriptor:
 
 
 ; Load up the strings	
-mes: db "Welcome to the Bootloader!", 0    ; Define msg as the string followed by the null byte for terminating
-msg: db "...ssergorP nI", 0                ; The msg here is in reverse as we are printing from stack that follows LIFO
+msg_1: db "Welcome to the Bootloader!", 0    ; Define msg as the string followed by the null byte for terminating
+msg_2: db "...ssergorP nI", 0                ; The msg here is in reverse as we are printing from stack that follows LIFO
 
 ; Padding and loading data into memory 
 times 510-($-$$) db 0    ; Fill the empty bytes with zeros
