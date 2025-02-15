@@ -212,5 +212,7 @@ Some other things to keep in mind:
 - To swicth to Protected mode we do a far jump to a new segemnt to reload all the `CS` registers using the new 0x08 (Code Segment Descriptor)
 - If we don’t perform this jump the CPU will still use the old code segment (probably from the BIOS or bootloader) which can cause undefined behavior, crashes, or triple faults when trying to execute instructions in the new mode
 - After the jump, all segment registers (DS, ES, SS, etc.) must be updated to the new Data Segment (0x10)
-- VGA printing
-
+- To check if we have succesfully switched to protected mode we use VGA to print a string in the protected mode
+- VGA (Video Graphics Array) memory refers to the portion of memory used by a graphics adapter to store the image displayed on the screen
+- VGA text mode starts at `0xB8000`, with each character occupying two bytes, `1st byte`: ASCII character, `2nd byte`: Color attribute (foreground and background color)
+- We print the string by basically writing the characters one at a time to the VGA memory address to print it on screen and then just moving to next character and next VGA memory address
