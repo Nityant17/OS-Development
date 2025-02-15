@@ -46,4 +46,3 @@ debug: $(BOOT_BIN)
 	$(QEMU) -s -S -drive format=raw,file=$(BOOT_BIN)
 # use (gdb -ex "target remote localhost:1234") on seperate terminal to connect gdb and qemu
 .PHONY: debug
-
