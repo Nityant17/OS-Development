@@ -160,8 +160,8 @@ gdt_start:
 gdt_end:
 
 gdt_descriptor:
-        dw gdt_end - gdt_start - 1  ; Size (Limit)
-        dd gdt_start                ; Base Address/offset
+        dw gdt_end - gdt_start - 1  ; Size of GDT table
+        dd gdt_start                ; Base Address of the table
 
 
 ; Set up the IDT table and IDT descriptor (empty for now)
@@ -170,7 +170,7 @@ idt_end:
 
 idt_descriptor:
 	dw 0  ; Size
-	dd 0  ; Base Address/offset
+	dd 0  ; Base Address
 
 
 ; Load up the strings	
