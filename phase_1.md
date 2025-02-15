@@ -5,7 +5,7 @@
 So how does it work:
 - First the BIOS checks the boot signature i.e the last 2 bytes and expects them to be `0xaa55` this tells the BIOS that this is a bootloader
 - Then the bootloader is loaded at `0x7c00` in memory
-- And then it just does what you tell it to
+- And then it just does what you tell it to...
 
 My code:
 ```asm
