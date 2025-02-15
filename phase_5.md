@@ -8,14 +8,14 @@
 - `CHS` is short for Cyllinder Head Sector and their values varies as follows Cylinder = 0 to 1023 or 4095, Head = 0 to 15 or 254 or 255, Sector = 1 to 63
 - The only way to access disks is through the set of disk access routines that BIOS provides using the `INT 0x13` family of BIOS functions
 - To load sectors we have to follow certain steps:
-  1. Set AH = 2
-  2. AL = total sector count that needs to loaded (< 128 and != 0)
-  3. CH = cylinder
-  4. CL = Sector
-  5. DH = Head
-  6. ES:BX -> buffer
-  7. Set DL = "drive number" -- typically 0x80, for the "C" drive
-  8. Issue an INT 0x13.
+1. Set AH = 2
+2. AL = total sector count that needs to loaded (< 128 and != 0)
+3. CH = cylinder
+4. CL = Sector
+5. DH = Head
+6. ES:BX -> buffer
+7. Set DL = "drive number" -- typically 0x80, for the "C" drive
+8. Issue an INT 0x13.
 
 My code:
 
