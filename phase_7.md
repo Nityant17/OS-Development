@@ -2,7 +2,7 @@
 
 ### Objective is to connect C with our assembly code
 
-- Connecting C code to assembly is pretty simple, we just compile the code into a binary format and when we run our assembly using `NASM` we also convert that to binary. So we basically just combine both the binaries and then run the final binary file using `QEMU` and voilla we have connected the C code.
+Connecting C code to assembly is pretty simple, we just compile the code into a binary format and when we run our assembly using `NASM` we also convert that to binary. So we basically just combine both the binaries and then run the final binary file using `QEMU` and voilla we have connected the C code.
 
 My Code:
 - I added one line in the protected mode to jump to kernel
