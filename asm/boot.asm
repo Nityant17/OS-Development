@@ -19,13 +19,15 @@ start:
 	mov bx, 0x0000        ; Set bx value for es
 	mov es, bx            ; Set es value to bx to set up the offset
 	mov bx, 0x7e00        ; Set bx value to specify the address where the sector will be loaded 
-	mov ax, 0x0201        ; Set ah as 0x02 (BIOS function to read sectors) and al as 0x01 to load 1 sector
+	mov ax, 0x0209        ; Set ah as 0x02 (BIOS function to read sectors) and al as 0x09 to load 1 sector
 	mov cx, 0x0002        ; Set ch as 0x00 for cylinder and cl as sector number 0x02
 	mov dx, 0x0080        ; Set dh as 0x00 for head and dl as 0x80 for C drive number
 	int 0x13              ; Access the disk using the 0x13 BIOS interrupt
 	mov si, 0x7e00        ; Load the data at the starting of loaded sector into si
 	call print
-	
+	;mov ax, 0x03         ; BIOS function to clear the screen
+        ;int 0x10             ; Call BIOS interrupt
+
 	; Load Global Descriptor Table
 	lgdt [gdt_descriptor] ; Load GDT
 	
@@ -53,6 +55,7 @@ start:
 ; ==================
 bits 32      ; Now in Protected Mode
 
+
 p_mode:
 	; Load Data Segment registers
 	mov eax, 0x10          
@@ -66,9 +69,12 @@ p_mode:
     	mov esp, 0x9fc00  
         
         ; VGA memory starts at 0xB8000
-        mov edi, (0xb8000 + (80 * 2 * 3))    ; Start at row 4 (skipping 3 rows of 16-bit mode text)
+        mov edi, (0xb8000 + (80 * 2 * 3))    ; Start at row 4 (skipping 3 rows of 16-bit mode text)    
         mov esi, msg_3                       ; Load the address of the string
         call print_32
+	
+        jmp 0x08:0x7e10                      ; jump to kernel	
+	
 	cli                                  ; Clear Interrupts	
 	hlt                                  ; Halt the code to prevent executing random memory
 
@@ -160,8 +166,8 @@ gdt_start:
 gdt_end:
 
 gdt_descriptor:
-        dw gdt_end - gdt_start - 1  ; Size of GDT table
-        dd gdt_start                ; Base Address of the table
+        dw gdt_end - gdt_start - 1  ; Size (Limit)
+        dd gdt_start                ; Base Address/offset
 
 
 ; Set up the IDT table and IDT descriptor (empty for now)
@@ -170,7 +176,7 @@ idt_end:
 
 idt_descriptor:
 	dw 0  ; Size
-	dd 0  ; Base Address
+	dd 0  ; Base Address/offset
 
 
 ; Load up the strings	
@@ -182,4 +188,4 @@ times 510-($-$$) db 0    ; Fill the empty bytes with zeros
 dw 0xaa55                ; Magic bytes to tell the BIOS that this is a bootloader
 
 db "Loaded Sectors!",0   ; Write msg into the loaded sector
-times 1024-($-$$) db 0   ; Pad the rest of the sector
+;times 1024-($-$$) db 0  ; Pad the rest of the sector
