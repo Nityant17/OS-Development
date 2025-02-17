@@ -19,7 +19,7 @@ start:
 	mov bx, 0x0000        ; Set bx value for es
 	mov es, bx            ; Set es value to bx to set up the offset
 	mov bx, 0x7e00        ; Set bx value to specify the address where the sector will be loaded 
-	mov ax, 0x0209        ; Set ah as 0x02 (BIOS function to read sectors) and al as 0x09 to load 9 sector
+	mov ax, 0x0209        ; Set ah as 0x02 (BIOS function to read sectors) and al as 0x09 to load 9 sectors
 	mov cx, 0x0002        ; Set ch as 0x00 for cylinder and cl as sector number 0x02
 	mov dx, 0x0080        ; Set dh as 0x00 for head and dl as 0x80 for C drive number
 	int 0x13              ; Access the disk using the 0x13 BIOS interrupt
