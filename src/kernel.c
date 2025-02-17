@@ -6,7 +6,7 @@ void kernel_main() {
     char *text = "Kernel Running";  // Text to print
 
     for (int i = 0; text[i] != '\0'; i++) {
-        video_memory[offset + i * 2] = text[i];      // Character
+        video_memory[offset + i * 2] = text[i];     // Character
         video_memory[offset + i * 2 + 1] = 0x04;    // Red color
     }
 
