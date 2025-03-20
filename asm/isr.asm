@@ -26,7 +26,7 @@ print_message:
     ret                       ; Return from function
 
 section .data
-messag: db "First Interrupt!", 0            ; Null-terminated string "hi"
+messag: db "First Interrupt!", 0            ; Null-terminated string
 
+; GNU Stack Note: Marks this section as non-executable, non-writable, and non-allocatable (needed otherwise gives warning)
 section .note.GNU-stack noalloc noexec nowrite progbits
-
